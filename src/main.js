@@ -1,6 +1,21 @@
 document.addEventListener('DOMContentLoaded', function(){
     const buttons = document.querySelectorAll('[data-tab-button]');
+    const questions = document.querySelectorAll('[data-faq-question]');
+    const heroSection = document.querySelector('.hero');
+    const alturaHero = heroSection.clientHeight;
+
+    window.addEventListener('scroll',function(){
+        const posicaoAtual = window.scrollY;
+
+        if(posicaoAtual < alturaHero){
+            ocultaHeaderElement();
+        } else{
+            exibeHeaderElement();
+        }
+    })
     
+
+    //seção de atrações, programação das abas
     for ( let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', function(botao){
             const abaAlvo = botao.target.dataset.tabButton;
@@ -12,8 +27,30 @@ document.addEventListener('DOMContentLoaded', function(){
 
         })
     }
+
+    //seção faq, accordion 
+    for (let i = 0; i < questions.length; i++) {
+        questions[i].addEventListener('click', abreOuFechaResposta)
+    }
     
 })
+
+function ocultaHeaderElement() {
+    const header = document.querySelector('header');
+    header.classList.add('header--is-hidden');
+}
+
+function exibeHeaderElement() {
+    const header = document.querySelector('header');
+    header.classList.remove('header--is-hidden');
+}
+
+function abreOuFechaResposta(elemento) {  /* abre o toggle de perguntas frequentes*/ 
+    const classe = 'faq__questions__item--is-open';
+    const elementoPai = elemento.target.parentNode;
+
+    elementoPai.classList.toggle(classe);
+}
 
 function removeBotaoAtivo() {
     const buttons = document.querySelectorAll('[data-tab-button]');
